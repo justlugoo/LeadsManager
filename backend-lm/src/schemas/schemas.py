@@ -9,13 +9,13 @@ class UserCreate(_UserBase):
     password: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class User(_UserBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class _LeadBase(_pydantic.BaseModel):
     first_name: str
@@ -35,4 +35,4 @@ class Lead(_LeadBase):
     date_last_updated: _dt.datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
