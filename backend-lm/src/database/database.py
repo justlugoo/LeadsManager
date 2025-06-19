@@ -3,8 +3,7 @@ import sqlalchemy.ext.declarative as _declarative
 import sqlalchemy.orm as _orm
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL",
-                         "mysql+mysqlconnector://root:1234@host:3306/leads_manager_db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./leads_manager.db")  # ← Cambia esta línea
 
 engine = _sql.create_engine(
     DATABASE_URL,
