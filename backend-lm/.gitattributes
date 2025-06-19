@@ -1,0 +1,9 @@
+# Manejo de finales de línea para todos los archivos de texto
+* text=auto
+
+# Para archivos específicos si es necesario (opcional)
+*.py text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
