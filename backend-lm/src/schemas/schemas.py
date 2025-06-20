@@ -2,20 +2,8 @@ import datetime as _dt
 
 import pydantic as _pydantic
 
-class _UserBase(_pydantic.BaseModel):
-    email: str
-
-class UserCreate(_UserBase):
-    password: str
-
-    class Config:
-        from_attributes = True
-
-class User(_UserBase):
-    id: int
-
-    class Config:
-        from_attributes = True
+# Import User schemas from the new location
+from src.schemas.users.user_schema import User, UserCreate, _UserBase
 
 class _LeadBase(_pydantic.BaseModel):
     first_name: str
