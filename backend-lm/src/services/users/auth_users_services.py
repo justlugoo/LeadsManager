@@ -3,10 +3,10 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import orm as _orm
 import jwt as _jwt
 
-from src.services.users.users_services import get_user_by_email
-from src.models import User
-from src.schemas import User as UserSchema
-from src.services import services as _services
+from .users_services import get_user_by_email
+from ...models import User
+from ...schemas import User as UserSchema
+from .. import services as _services
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
 
