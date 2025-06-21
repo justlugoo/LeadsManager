@@ -1,32 +1,36 @@
-# Leads Manager 📊
+# Leads Manager API 📊
 
-Sistema de gestión de clientes potenciales (leads) desarrollado con FastAPI y SQLAlchemy.
+[![Estado del Build](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/tu-usuario/leads-manager)
+[![Versión de Python](https://img.shields.io/badge/python-3.13+-blue)](https://www.python.org/)
 
-## 📋 Descripción
+**Leads Manager** es una API RESTful, robusta y escalable para la gestión de clientes potenciales (leads), desarrollada con el moderno framework **FastAPI** y el poderoso ORM **SQLAlchemy**.
 
-Leads Manager es una aplicación web para gestionar clientes potenciales, permitiendo a los equipos de ventas registrar, hacer seguimiento y convertir leads en clientes.
+## ✨ Características Principales
+
+* **Gestión de Usuarios**: Sistema completo para crear y autenticar usuarios.
+* **Autenticación Segura**: Implementación de JSON Web Tokens (JWT) para proteger los endpoints.
+* **Gestión de Leads (CRUD)**: Operaciones completas para Crear, Leer, Actualizar y Eliminar leads.
+* **Arquitectura Moderna**: Estructura de proyecto en capas, limpia y fácil de mantener.
+* **Validación de Datos**: Uso de Pydantic para una validación de datos robusta y automática.
+* **Documentación Interactiva**: Documentación de la API generada automáticamente con Swagger UI y ReDoc.
 
 ## 🛠️ Stack Tecnológico
 
-- **Backend**: 
-  - [FastAPI](https://fastapi.tiangolo.com/) - Framework web moderno y de alto rendimiento
-  - [SQLAlchemy](https://www.sqlalchemy.org/) - ORM para interactuar con la base de datos
-  - [Pydantic](https://docs.pydantic.dev/) - Validación de datos y serialización
-  - [PyJWT](https://pyjwt.readthedocs.io/) - Manejo de tokens JWT para autenticación
-  - [Passlib](https://passlib.readthedocs.io/) - Gestión segura de contraseñas
-
-- **Base de datos**:
-  - SQLite (desarrollo)
-  - Compatible con PostgreSQL, MySQL (producción)
-
-- **Frontend** (Próximamente):
-  - React.js - Biblioteca para construir interfaces de usuario
-  - Redux - Gestión de estado
-  - Material UI - Componentes de interfaz de usuario
+-   **Backend**:
+    -   [FastAPI](https://fastapi.tiangolo.com/): Framework web de alto rendimiento para construir APIs.
+    -   [SQLAlchemy](https://www.sqlalchemy.org/): The Python SQL Toolkit and Object Relational Mapper.
+    -   [Pydantic](https://docs.pydantic.dev/): Validación de datos y gestión de configuraciones.
+    -   [PyJWT](https://pyjwt.readthedocs.io/): Implementación de JSON Web Tokens.
+    -   [Passlib](https://passlib.readthedocs.io/): Biblioteca para hashing de contraseñas.
+-   **Base de Datos**:
+    -   SQLite (para desarrollo)
+    -   Totalmente compatible con PostgreSQL, MySQL, etc. (para producción).
+-   **Frontend** (Planificado):
+    -   React.js | Redux | Material UI
 
 ## 🏗️ Arquitectura del Proyecto
 
-El proyecto sigue una arquitectura en capas:
+El proyecto sigue una arquitectura en capas para separar responsabilidades y facilitar el mantenimiento.
 
 ```
 backend-lm/
@@ -41,73 +45,95 @@ backend-lm/
 └── pyproject.toml      # Dependencias del proyecto
 ```
 
-## 🔄 API Endpoints
+## 🔄 Endpoints de la API
 
-### Autenticación
+A continuación se detallan los endpoints disponibles actualmente.
 
-- `POST /api/auth/token` - Obtener token de autenticación
-  
-### Usuarios
+| Método HTTP | Ruta                       | Descripción                                  | Requiere Autenticación |
+| :---------- | :------------------------- | :------------------------------------------- | :--------------------: |
+| `GET`       | `/`                        | Mensaje de bienvenida de la API              |           No           |
+| `POST`      | `/api/auth/token`          | Obtiene un token de acceso (JWT)             |           No           |
+| `POST`      | `/api/users/`              | Crea un nuevo usuario                        |           No           |
+| `GET`       | `/api/users/`              | Lista todos los usuarios                     |           ✅           |
+| `GET`       | `/api/users/me`            | Obtiene datos del usuario autenticado        |           ✅           |
+| `POST`      | `/api/leads/`              | Crea un nuevo lead                           |           ✅           |
+| `GET`       | `/api/leads/`              | Lista todos los leads                        |           ✅           |
+| `GET`       | `/api/leads/{lead_id}`     | Obtiene un lead por su ID                    |           ✅           |
+| `PUT`       | `/api/leads/{lead_id}`     | Actualiza un lead por su ID                  |           ✅           |
+| `DELETE`    | `/api/leads/{lead_id}`     | Elimina un lead por su ID                    |           ✅           |
 
-- `POST /api/users/` - Crear un nuevo usuario
-- `GET /api/users/` - Listar todos los usuarios (requiere autenticación)
-- `GET /api/users/me` - Obtener información del usuario actual
+## 🚀 Instalación y Uso Local
 
-### Leads (Próximamente)
+Sigue estos pasos para levantar el proyecto en tu máquina local.
 
-- `GET /api/leads/` - Listar todos los leads
-- `POST /api/leads/` - Crear un nuevo lead
-- `GET /api/leads/{id}` - Obtener detalles de un lead específico
-- `PUT /api/leads/{id}` - Actualizar información de un lead
-- `DELETE /api/leads/{id}` - Eliminar un lead
+### Pre-requisitos
 
-## 🚀 Instalación y Configuración
+-   Python 3.13 o superior.
+-   Un gestor de paquetes como `pip` o `uv`.
+-   Git.
 
-### Requisitos
+### Pasos
 
-- Python 3.13 o superior
-- pip o uv (gestor de paquetes)
+1.  **Clona el repositorio:**
+    ```bash
+    git clone https://github.com/tu-usuario/leads-manager.git
+    cd leads-manager
+    ```
 
-### Pasos de instalación
+2.  **Crea y activa un entorno virtual:**
+    ```bash
+    python -m venv venv
+    # En Windows
+    # venv\Scripts\activate
+    # En macOS/Linux
+    source venv/bin/activate
+    ```
 
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/leads-manager.git
-   cd leads-manager
-   ```
+3.  **Instala las dependencias:**
+    *(El flag `-e` instala el proyecto en modo editable)*
+    ```bash
+    # Con pip
+    pip install -e .
 
-2. Instalar dependencias:
-   ```bash
-   pip install -e .
-   # o con uv
-   uv pip install -e .
-   ```
+    # o con uv
+    uv pip install -e .
+    ```
 
-3. Ejecutar el servidor de desarrollo:
-   ```bash
-   uvicorn src.main:app --reload
-   ```
+4.  **Ejecuta el servidor:**
+    ```bash
+    uvicorn src.main:app --reload
+    ```
+    El servidor estará corriendo en `http://localhost:8000`. El flag `--reload` reiniciará el servidor automáticamente con cada cambio en el código.
 
-4. Acceder a la documentación de la API:
-   ```
-   http://localhost:8000/docs
-   ```
+5.  **Accede a la documentación interactiva:**
+    Una vez que el servidor esté en ejecución, abre tu navegador y ve a:
+    -   **Swagger UI**: `http://localhost:8000/docs`
+    -   **ReDoc**: `http://localhost:8000/redoc`
 
-## ⚠️ Estado del Desarrollo
+## 📈 Estado del Proyecto
 
-Este proyecto se encuentra actualmente en fase de desarrollo activo:
+-   [x] ✅ Backend API con FastAPI.
+-   [x] ✅ Modelos de datos para `Users` y `Leads`.
+-   [x] ✅ Autenticación de usuarios con JWT.
+-   [x] ✅ Endpoints CRUD completos para `Users`.
+-   [x] ✅ Endpoints CRUD completos para `Leads`.
+-   [ ] 🔄 Frontend con React (Planificado).
 
-- ✅ Backend API con FastAPI
-- ✅ Autenticación de usuarios con JWT
-- ✅ Modelos de datos para usuarios y leads
-- 🔄 Endpoints para gestión de leads (en progreso)
-- 🔜 Frontend con React (planificado)
+## 🗺️ Roadmap / Próximos Pasos
 
-## 📝 Próximos Pasos
+-   [ ] Añadir roles y permisos de usuario (ej. `admin`, `sales_rep`).
+-   [ ] Implementar funcionalidades de filtrado y búsqueda avanzada para leads.
+-   [ ] Desarrollar el frontend con React para consumir la API.
+-   [ ] Implementar un sistema de notificaciones (ej. al asignar un nuevo lead).
+-   [ ] Añadir reportes y un dashboard de estadísticas.
+-   [ ] Configurar Docker para un despliegue más sencillo.
 
-- Implementar endpoints completos para la gestión de leads
-- Añadir funcionalidades de filtrado y búsqueda
-- Desarrollar el frontend con React
-- Implementar sistema de notificaciones
-- Añadir reportes y estadísticas
+## 🤝 Cómo Contribuir
 
+¡Las contribuciones son bienvenidas! Si quieres mejorar este proyecto, por favor sigue estos pasos:
+
+1.  Haz un **Fork** de este repositorio.
+2.  Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3.  Haz tus cambios y haz **Commit** (`git commit -m 'Añade nueva funcionalidad'`).
+4.  Haz **Push** a tu rama (`git push origin feature/nueva-funcionalidad`).
+5.  Abre un **Pull Request**.
