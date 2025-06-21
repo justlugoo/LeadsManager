@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 
-from src.services import services as _services
-from src.services.users import auth_users_services as _auth_users_services
+from ...services import services as _services
+from ...services.users import auth_users_services as _auth_users_services
 from sqlalchemy import orm as _orm
 
 router = APIRouter(

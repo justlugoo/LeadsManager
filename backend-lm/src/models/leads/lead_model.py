@@ -3,7 +3,7 @@ import datetime as _dt
 import sqlalchemy as _sql
 import sqlalchemy.orm as _orm
 
-from src.database import database as _database
+from ...database import database as _database
 
 class Lead(_database.Base):
     __tablename__ = "leads"
@@ -15,9 +15,9 @@ class Lead(_database.Base):
     company = _sql.Column(_sql.String(255), index=True, default="")
     note = _sql.Column(_sql.Text, default="")
     status = _sql.Column(_sql.String(20), default="nuevo")
-    date_created = _sql.Column(_sql.DateTime, default=_dt.datetime.now)
-    date_last_updated = _sql.Column(_sql.DateTime, default=_dt.datetime.now, onupdate=_dt.datetime.now)
-
+    date_created = _sql.Column(_sql.DateTime, default=lambda: _dt.datetime.now(_dt.UTC))
+    date_last_updated = _sql.Column(_sql.DateTime, default=lambda: _dt.datetime.now(_dt.UTC),
+                                    onupdate=lambda: _dt.datetime.now(_dt.UTC))
     owner = _orm.relationship("User", back_populates="leads")
 
     @property

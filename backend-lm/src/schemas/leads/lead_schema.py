@@ -1,9 +1,8 @@
 import datetime as _dt
-
 import pydantic as _pydantic
+from typing import Optional
+from ..users.user_schema import User
 
-# Import User schemas from the new location
-from src.schemas.users.user_schema import User, UserCreate, _UserBase
 
 class _LeadBase(_pydantic.BaseModel):
     first_name: str
@@ -21,6 +20,7 @@ class Lead(_LeadBase):
     owner_id: int
     date_created: _dt.datetime
     date_last_updated: _dt.datetime
+    owner: Optional[User] = None
 
     class Config:
         from_attributes = True
