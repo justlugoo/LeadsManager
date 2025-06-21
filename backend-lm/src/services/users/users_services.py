@@ -1,7 +1,7 @@
-from src.models import User
-from src.schemas import UserCreate
+from ...models import User
+from ...schemas import UserCreate
 from sqlalchemy import orm as _orm
-from src.utils.security import hash_password
+from ...utils.security import hash_password
 from fastapi import HTTPException, Depends
 
 
