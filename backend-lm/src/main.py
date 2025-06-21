@@ -1,12 +1,23 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from src.routers.users import users, auth_users
 from src.routers.leads import leads
-app = FastAPI()
 
-# Users routes
-app.include_router(users.router, prefix="/api")
-app.include_router(auth_users.router, prefix="/api")
+app = FastAPI(
+    title="Lead Manager API",
+    description="API for managing leads and users",
+)
 
-# Leads routes
+@app.get("/")
+async def root():
+    return {"message": "Lead Manager API is running"}
 
-app.include_router(leads.router, prefix="/api")
+# Crear un router principal para /api
+api_router = APIRouter(prefix="/api")
+
+# Agregar todos los sub-routers (sin prefix repetido)
+api_router.include_router(users.router)
+api_router.include_router(auth_users.router)
+api_router.include_router(leads.router)
+
+
+app.include_router(api_router)          # Agregar el router principal a la app
