@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    /* Fondo principal oscuro y elegante */
+    @apply bg-dark-900 text-light-200 font-sans;
+  }
+}
+
+@layer components {
+  /* Contenedor principal para formularios */
+  .card {
+    /* Fondo de tarjeta, borde sutil y una sombra suave para flotar sobre el fondo */
+    @apply bg-dark-800 p-8 rounded-lg border border-dark-700 shadow-2xl shadow-black/25;
+  }
+
+  /* Estilo para los campos de texto */
+  .input-field {
+    /* Fondo oscuro, sin borde por defecto, pero con un anillo de gradiente al hacer foco */
+    @apply w-full bg-dark-900 rounded-md py-3 px-4 text-light-100 
+           ring-1 ring-dark-700 focus:ring-2 focus:ring-primary-end
+           focus:outline-none transition-all duration-300;
+  }
+
+  /* Estilo base para los botones */
+  .btn {
+    @apply w-full py-3 px-4 rounded-md font-semibold
+           transition-all duration-300 
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-900;
+  }
+
+  /* Botón de acción principal con gradiente */
+  .btn-primary {
+    @apply btn bg-gradient-primary text-white hover:shadow-lg hover:shadow-primary-start/20 focus:ring-primary-end;
+  }
+
+  /* Estilo para las etiquetas de los formularios */
+  .form-label {
+    @apply block text-sm font-medium text-light-300 mb-2;
+  }
+}
