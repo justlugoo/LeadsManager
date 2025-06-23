@@ -72,6 +72,23 @@ export const apiService = {
         // El interceptor añadirá la cabecera con el token automáticamente.
         return api.get<User>('/users/me');
     },
+
+    // Métodos HTTP genéricos para otros endpoints
+    get: <T = any>(url: string) => {
+        return api.get<T>(url);
+    },
+
+    post: <T = any>(url: string, data?: any) => {
+        return api.post<T>(url, data);
+    },
+
+    put: <T = any>(url: string, data?: any) => {
+        return api.put<T>(url, data);
+    },
+
+    delete: <T = any>(url: string) => {
+        return api.delete<T>(url);
+    },
 };
 
 // Aún podemos exportar la instancia base por si alguna vez necesitamos hacer una

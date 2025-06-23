@@ -7,6 +7,9 @@ import { routes } from 'routes';
 import { Register } from 'pages/auth/Register';
 import { Login } from 'pages/auth/Login';
 import LayoutDemo from 'components/layout/LayoutDemo';
+import { LeadsList } from 'pages/leads/LeadsList';
+import { LeadForm } from 'pages/leads/LeadForm';
+import { LeadDetail } from 'pages/leads/LeadDetail';
 // Dummy pages
 // const Login = () => (
 //   <AuthLayout title="Iniciar Sesión">
@@ -14,8 +17,6 @@ import LayoutDemo from 'components/layout/LayoutDemo';
 //   </AuthLayout>
 // );
 const Dashboard = () => <div className="text-light-100">Dashboard Page</div>;
-const Leads = () => <div className="text-light-100">Leads List Page</div>;
-const LeadDetail = () => <div className="text-light-100">Lead Detail Page</div>;
 const Profile = () => <div className="text-light-100">Profile Page</div>;
 
 function App() {
@@ -41,7 +42,7 @@ function App() {
           element={
             <ProtectedRoute>
               <MainLayout navigation={navigationItems}>
-                <Leads />
+                <LeadsList />
               </MainLayout>
             </ProtectedRoute>
           }
@@ -52,6 +53,16 @@ function App() {
             <ProtectedRoute>
               <MainLayout navigation={navigationItems}>
                 <LeadDetail />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.app.leadForm}
+          element={
+            <ProtectedRoute>
+              <MainLayout navigation={navigationItems}>
+                <LeadForm />
               </MainLayout>
             </ProtectedRoute>
           }

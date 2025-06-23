@@ -6,6 +6,7 @@ export const routes = {
   app: {
     dashboard: '/dashboard',
     leads: '/leads',
+    leadForm: '/leads/form',
     leadDetail: (id = ':id') => `/leads/${id}`,
     profile: '/profile',
   },
