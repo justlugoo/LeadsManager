@@ -2,14 +2,7 @@ import React from 'react';
 import { LayoutProvider } from './LayoutProvider';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
-
-interface NavItem {
-  name: string;
-  href: string;
-  icon: React.ReactNode;
-  current?: boolean;
-  count?: number;
-}
+import type { NavItem } from 'types';
 
 export const MainLayout: React.FC<{
   children: React.ReactNode;

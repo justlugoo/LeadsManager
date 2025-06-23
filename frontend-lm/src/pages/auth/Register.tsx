@@ -25,7 +25,7 @@ export const Register = () => {
     e.preventDefault(); // Prevenimos la recarga de la página.
     setErrorMessage(""); // Limpiamos errores anteriores.
 
-    const result = await register({ email, password, full_name: fullName });
+    const result = await register({ email, password });
 
     if (!result.success) {
       setErrorMessage(result.error);

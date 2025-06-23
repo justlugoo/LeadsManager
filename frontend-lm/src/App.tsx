@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { MainLayout } from 'components/layout/MainLayout';
 import { AuthLayout } from 'components/layout/AuthLayout';
@@ -6,13 +5,14 @@ import { ProtectedRoute } from 'components/ProtectedRoute';
 import { navigationItems } from 'config/navigation';
 import { routes } from 'routes';
 import { Register } from 'pages/auth/Register';
+import { Login } from 'pages/auth/Login';
 import LayoutDemo from 'components/layout/LayoutDemo';
 // Dummy pages
-const Login = () => (
-  <AuthLayout title="Iniciar Sesión">
-    <div className="text-light-100">Login Page (formulario aquí)</div>
-  </AuthLayout>
-);
+// const Login = () => (
+//   <AuthLayout title="Iniciar Sesión">
+//     <div className="text-light-100">Login Page (formulario aquí)</div>
+//   </AuthLayout>
+// );
 const Dashboard = () => <div className="text-light-100">Dashboard Page</div>;
 const Leads = () => <div className="text-light-100">Leads List Page</div>;
 const LeadDetail = () => <div className="text-light-100">Lead Detail Page</div>;

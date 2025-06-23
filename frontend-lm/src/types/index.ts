@@ -204,7 +204,7 @@ export interface DashboardStats {
 export interface NavItem {
   name: string;
   href: string;
-  icon: React.ReactNode;
+  icon: React.ElementType;
   current?: boolean;
   count?: number;
 }

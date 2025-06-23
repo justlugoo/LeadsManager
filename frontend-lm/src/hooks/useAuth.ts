@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { apiService } from "../services/api";
 import type { UserCreate } from "types";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Hook personalizado para interactuar con el contexto de autenticación.
@@ -19,6 +20,7 @@ export const useAuth = () => {
   }
 
   const [token, setToken] = context;
+  const navigate = useNavigate();
 
   /**
    * Función para registrar un nuevo usuario.
@@ -37,6 +39,7 @@ export const useAuth = () => {
       // 2. Actualizamos el estado de React. Esto disparará el useEffect de validación en UserContext,
       //    que ahora encontrará el token correcto en localStorage a través del interceptor.
       setToken(newToken);
+      navigate("/dashboard");
 
       return { success: true };
     } catch (error: any) {
@@ -45,10 +48,32 @@ export const useAuth = () => {
     }
   };
 
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await apiService.login({ email, password });
+      const newToken = response.data.access_token;
+      localStorage.setItem("leadsManagerToken", newToken);
+      setToken(newToken);
+      navigate("/dashboard");
+      return { success: true };
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.detail || "Ocurrió un error al iniciar sesión.";
+      return { success: false, error: errorMessage };
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("leadsManagerToken");
+    setToken(null);
+    navigate("/login");
+  };
+
   // El hook devuelve el estado del token y las funciones de acción.
   // Más adelante añadiremos aquí 'login' y 'logout'.
   return {
     token,
     register,
+    login,
+    logout,
   };
 }; 

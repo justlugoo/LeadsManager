@@ -1,4 +1,3 @@
-import React from 'react';
 import { MainLayout } from './MainLayout';
 import { PageHeader } from './PageHeader';
 import { EmptyState } from './EmptyState';
@@ -6,10 +5,10 @@ import { HomeIcon, UsersIcon, ChartBarIcon, Cog6ToothIcon } from '@heroicons/rea
 
 export default function LayoutDemo() {
   const navigation = [
-    { name: 'Dashboard', href: '#', icon: <HomeIcon />, current: true },
-    { name: 'Leads', href: '#', icon: <UsersIcon />, count: 12 },
-    { name: 'Análisis', href: '#', icon: <ChartBarIcon /> },
-    { name: 'Configuración', href: '#', icon: <Cog6ToothIcon /> }
+    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
+    { name: 'Leads', href: '#', icon: UsersIcon, count: 12 },
+    { name: 'Análisis', href: '#', icon: ChartBarIcon },
+    { name: 'Configuración', href: '#', icon: Cog6ToothIcon }
   ];
 
   return (

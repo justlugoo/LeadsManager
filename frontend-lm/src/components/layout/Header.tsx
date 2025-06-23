@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { Bars3Icon, MagnifyingGlassIcon, BellIcon, UserIcon, XMarkIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, MagnifyingGlassIcon, BellIcon, UserIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { useLayout } from './LayoutProvider';
+import { useAuth } from 'hooks/useAuth';
 
 export const Header: React.FC = () => {
   const { sidebarOpen, setSidebarOpen, currentUser } = useLayout();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    setUserMenuOpen(false); // Cerrar el menú
+    logout();
+  };
 
   return (
     <header className="bg-dark-800 border-b border-dark-700 sticky top-0 z-40">
@@ -63,9 +70,12 @@ export const Header: React.FC = () => {
                   Configuración
                 </a>
                 <hr className="border-dark-700 my-1" />
-                <button className="w-full text-left px-4 py-2 text-sm text-light-200 hover:bg-dark-700 hover:text-light-100 flex items-center gap-2">
-                  <ArrowRightOnRectangleIcon className="w-4 h-4" />
-                  Cerrar Sesión
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-light-200 hover:bg-dark-700 hover:text-light-100 transition-colors"
+                >
+                  <ArrowRightOnRectangleIcon className="w-5 h-5" />
+                  <span>Cerrar sesión</span>
                 </button>
               </div>
             )}
