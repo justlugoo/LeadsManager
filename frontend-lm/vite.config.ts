@@ -5,6 +5,19 @@ import react from '@vitejs/plugin-react-swc'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      components: '/src/components',
+      pages: '/src/pages',
+      hooks: '/src/hooks',
+      context: '/src/context',
+      services: '/src/services',
+      types: '/src/types',
+      utils: '/src/utils',
+      config: '/src/config',
+      routes: '/src/routes',
+    },
+  },
   server: {
     proxy: {
       '/api': {

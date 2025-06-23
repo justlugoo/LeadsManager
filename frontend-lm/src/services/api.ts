@@ -1,4 +1,5 @@
 import axios from 'axios'
+import type { UserCreate } from 'types';
 
 // --- Instancia Base de la API ---
 const api = axios.create({
@@ -27,12 +28,6 @@ api.interceptors.request.use(
 );
 
 // --- Definición de Tipos para nuestra API ---
-
-export interface RegisterData {
-    email: string;
-    password: string;
-    full_name: string;
-}
 
 export interface LoginCredentials {
     email: string;
@@ -68,7 +63,7 @@ export const apiService = {
         });
     },
 
-    register: (data: RegisterData) => {
+    register: (data: UserCreate) => {
         // El endpoint de registro espera JSON, así que esta llamada es directa.
         return api.post<AuthResponse>('/users/', data);
     },

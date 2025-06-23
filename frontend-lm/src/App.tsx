@@ -1,30 +1,79 @@
-import { useContext } from "react";
-import { UserContext } from "./context/UserContext";
-import { Register } from "./components/Register";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { MainLayout } from 'components/layout/MainLayout';
+import { AuthLayout } from 'components/layout/AuthLayout';
+import { ProtectedRoute } from 'components/ProtectedRoute';
+import { navigationItems } from 'config/navigation';
+import { routes } from 'routes';
+import { Register } from 'pages/auth/Register';
+import LayoutDemo from 'components/layout/LayoutDemo';
+// Dummy pages
+const Login = () => (
+  <AuthLayout title="Iniciar Sesión">
+    <div className="text-light-100">Login Page (formulario aquí)</div>
+  </AuthLayout>
+);
+const Dashboard = () => <div className="text-light-100">Dashboard Page</div>;
+const Leads = () => <div className="text-light-100">Leads List Page</div>;
+const LeadDetail = () => <div className="text-light-100">Lead Detail Page</div>;
+const Profile = () => <div className="text-light-100">Profile Page</div>;
 
-const App = () => {
-  // Obtenemos el token directamente desde el contexto para decidir qué mostrar.
-  const [token] = useContext(UserContext);
-
+function App() {
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
-      <div className="w-full max-w-md">
-        {token ? (
-          <div className="card text-center">
-            <h1 className="text-2xl font-bold text-light-100">¡Registro Exitoso!</h1>
-            <p className="mt-4 text-light-200">Estás autenticado correctamente.</p>
-            <div className="mt-6 p-4 bg-dark-900 rounded-md text-xs text-left break-words ring-1 ring-dark-700">
-              <span className="font-semibold text-light-200">Tu Token:</span>
-              <p className="font-mono mt-2 text-primary-start">{token}</p>
-            </div>
-            {/* Aquí podrías añadir un botón de Logout en el futuro */}
-          </div>
-        ) : (
-          <Register />
-        )}
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        {/* Rutas públicas */}
+        <Route path={routes.auth.login} element={<Login />} />
+        <Route path={routes.auth.register} element={<AuthLayout title="Crear Cuenta"><Register /></AuthLayout>} />
+        {/* Rutas protegidas */}
+        <Route
+          path={routes.app.dashboard}
+          element={
+            <ProtectedRoute>
+              <MainLayout navigation={navigationItems}>
+                <Dashboard />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.app.leads}
+          element={
+            <ProtectedRoute>
+              <MainLayout navigation={navigationItems}>
+                <Leads />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.app.leadDetail()}
+          element={
+            <ProtectedRoute>
+              <MainLayout navigation={navigationItems}>
+                <LeadDetail />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.app.profile}
+          element={
+            <ProtectedRoute>
+              <MainLayout navigation={navigationItems}>
+                <Profile />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        {/* Demo de layouts */}
+        <Route path="/layout-demo" element={<LayoutDemo />} />
+        {/* Redirecciones */}
+        <Route path="/" element={<Navigate to={routes.app.dashboard} replace />} />
+        <Route path="*" element={<Navigate to={routes.app.dashboard} replace />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;

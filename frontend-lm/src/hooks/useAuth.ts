@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { apiService } from "../services/api";
-import type { RegisterData } from "../services/api";
+import type { UserCreate } from "types";
 
 /**
  * Hook personalizado para interactuar con el contexto de autenticación.
@@ -23,11 +23,11 @@ export const useAuth = () => {
   /**
    * Función para registrar un nuevo usuario.
    * Llama al servicio de la API y, si tiene éxito, actualiza el token en el estado global.
-   * @param {RegisterData} data - Los datos del usuario para el registro.
+   * @param {UserCreate} data - Los datos del usuario para el registro.
    * @returns Un objeto indicando si la operación fue exitosa y un posible mensaje de error.
    */
   
-  const register = async (data: RegisterData) => {
+  const register = async (data: UserCreate) => {
     try {
       const response = await apiService.register(data);
       const newToken = response.data.access_token;
