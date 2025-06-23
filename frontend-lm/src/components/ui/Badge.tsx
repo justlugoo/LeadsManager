@@ -16,9 +16,9 @@ export const Badge: React.FC<BadgeProps> = ({
   const variants = {
     default: 'bg-dark-700 text-light-200',
     primary: 'bg-primary-start bg-opacity-10 text-primary-start',
-    success: 'bg-green-100 text-green-800',
-    warning: 'bg-yellow-100 text-yellow-800',
-    danger: 'bg-red-100 text-red-800',
+    success: 'bg-green-100 text-green-600',
+    warning: 'bg-yellow-900/20 text-yellow-400 border border-yellow-700',
+    danger: 'bg-red-900/20 text-red-400 border border-red-700',
     gradient: 'bg-gradient-primary text-white'
   };
   

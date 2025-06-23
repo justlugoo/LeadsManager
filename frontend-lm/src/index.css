@@ -4,8 +4,9 @@
 
 @layer base {
   body {
-    /* Fondo principal oscuro y elegante */
-    @apply bg-dark-900 text-light-200 font-sans;
+    background: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    color: #1F2937;
   }
 }
 
@@ -39,5 +40,51 @@
   /* Estilo para las etiquetas de los formularios */
   .form-label {
     @apply block text-sm font-medium text-light-300 mb-2;
+  }
+
+  /* Card base */
+  .card-claude {
+    background: #F8F9FA;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(31,41,55,0.04);
+    border: 1px solid #E0DED9;
+  }
+
+  /* Botón base */
+  .btn-claude {
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+  }
+  .btn-claude-primary {
+    background: #FF6B35;
+    color: #fff;
+  }
+  .btn-claude-primary:hover {
+    background: #F97316;
+  }
+  .btn-claude-secondary {
+    background: #3B82F6;
+    color: #fff;
+  }
+  .btn-claude-secondary:hover {
+    background: #2563EB;
+  }
+
+  /* Input base */
+  .input-claude {
+    border-radius: 8px;
+    border: 1px solid #E0DED9;
+    background: #FFF;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #1F2937;
+  }
+  .input-claude:focus {
+    outline: none;
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 2px #3B82F6;
   }
 }

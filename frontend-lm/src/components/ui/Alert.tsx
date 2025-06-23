@@ -24,28 +24,28 @@ export const Alert: React.FC<AlertProps> = ({
 }) => {
   const types = {
     info: {
-      bg: 'bg-blue-50 border-blue-200',
+      bg: 'bg-blue-800 border-blue-600',
       icon: InformationCircleIcon,
-      iconColor: 'text-blue-500',
-      textColor: 'text-blue-800'
+      iconColor: 'text-blue-300',
+      textColor: 'text-white'
     },
     success: {
-      bg: 'bg-green-50 border-green-200',
+      bg: 'bg-green-800 border-green-600',
       icon: CheckCircleIcon,
-      iconColor: 'text-green-500',
-      textColor: 'text-green-800'
+      iconColor: 'text-green-300',
+      textColor: 'text-white'
     },
     warning: {
-      bg: 'bg-yellow-50 border-yellow-200',
+      bg: 'bg-yellow-700 border-yellow-500',
       icon: ExclamationTriangleIcon,
-      iconColor: 'text-yellow-500',
-      textColor: 'text-yellow-800'
+      iconColor: 'text-yellow-200',
+      textColor: 'text-white'
     },
     error: {
-      bg: 'bg-red-50 border-red-200',
+      bg: 'bg-red-800 border-red-600',
       icon: ExclamationCircleIcon,
-      iconColor: 'text-red-500',
-      textColor: 'text-red-800'
+      iconColor: 'text-red-300',
+      textColor: 'text-white'
     }
   };
 

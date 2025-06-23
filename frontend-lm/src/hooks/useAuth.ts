@@ -11,16 +11,21 @@ import { useNavigate } from "react-router-dom";
  */
 
 export const useAuth = () => {
-  // Obtenemos el valor del contexto (el token y la función para actualizarlo).
   const context = useContext(UserContext);
-
-  // Si el hook se usa fuera de un UserProvider, lanzamos un error.
   if (!context) {
     throw new Error("useAuth debe ser usado dentro de un UserProvider");
   }
-
-  const [token, setToken] = context;
+  const { token, setToken, user, setUser } = context;
   const navigate = useNavigate();
+
+  const fetchAndSetUser = async () => {
+    try {
+      const res = await apiService.getCurrentUser();
+      setUser(res.data);
+    } catch {
+      setUser(null);
+    }
+  };
 
   /**
    * Función para registrar un nuevo usuario.
@@ -39,6 +44,7 @@ export const useAuth = () => {
       // 2. Actualizamos el estado de React. Esto disparará el useEffect de validación en UserContext,
       //    que ahora encontrará el token correcto en localStorage a través del interceptor.
       setToken(newToken);
+      await fetchAndSetUser();
       navigate("/dashboard");
 
       return { success: true };
@@ -54,6 +60,7 @@ export const useAuth = () => {
       const newToken = response.data.access_token;
       localStorage.setItem("leadsManagerToken", newToken);
       setToken(newToken);
+      await fetchAndSetUser();
       navigate("/dashboard");
       return { success: true };
     } catch (error: any) {
@@ -65,6 +72,7 @@ export const useAuth = () => {
   const logout = () => {
     localStorage.removeItem("leadsManagerToken");
     setToken(null);
+    setUser(null);
     navigate("/login");
   };
 
@@ -72,6 +80,7 @@ export const useAuth = () => {
   // Más adelante añadiremos aquí 'login' y 'logout'.
   return {
     token,
+    user,
     register,
     login,
     logout,

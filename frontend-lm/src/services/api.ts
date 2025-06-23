@@ -89,6 +89,10 @@ export const apiService = {
     delete: <T = any>(url: string) => {
         return api.delete<T>(url);
     },
+
+    patch: <T = any>(url: string, data?: any) => {
+        return api.patch<T>(url, data);
+    },
 };
 
 // Aún podemos exportar la instancia base por si alguna vez necesitamos hacer una

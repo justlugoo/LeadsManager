@@ -2,16 +2,33 @@ import React, { useState } from 'react';
 import { Bars3Icon, MagnifyingGlassIcon, BellIcon, UserIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { useLayout } from './LayoutProvider';
 import { useAuth } from 'hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const Header: React.FC = () => {
-  const { sidebarOpen, setSidebarOpen, currentUser } = useLayout();
+  const { sidebarOpen, setSidebarOpen } = useLayout();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setUserMenuOpen(false); // Cerrar el menú
     logout();
   };
+
+  // Extraer nombre y apellido del usuario
+  let fullName = 'Usuario';
+  let userType = 'user';
+  if (user) {
+    if (user.full_name) {
+      fullName = user.full_name;
+    } else if (user.first_name && user.last_name) {
+      fullName = `${user.first_name} ${user.last_name}`;
+    } else if (user.email) {
+      fullName = user.email.split('@')[0];
+    }
+    // Si en el futuro hay roles, aquí se puede ajustar
+    userType = 'user';
+  }
 
   return (
     <header className="bg-dark-800 border-b border-dark-700 sticky top-0 z-40">
@@ -53,19 +70,22 @@ export const Header: React.FC = () => {
               </div>
               <div className="hidden md:block text-left">
                 <p className="text-sm font-medium text-light-100">
-                  {currentUser?.name || 'Usuario'}
+                  {fullName}
                 </p>
-                <p className="text-xs text-light-300">
-                  {currentUser?.email || 'usuario@ejemplo.com'}
+                <p className="text-xs text-primary-end font-semibold uppercase tracking-wider">
+                  {userType}
                 </p>
               </div>
             </button>
             {/* Dropdown menu */}
             {userMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-dark-800 border border-dark-700 rounded-lg shadow-lg py-1 z-50">
-                <a href="#" className="block px-4 py-2 text-sm text-light-200 hover:bg-dark-700 hover:text-light-100">
+                <button
+                  onClick={() => { setUserMenuOpen(false); navigate('/profile'); }}
+                  className="block w-full text-left px-4 py-2 text-sm text-light-200 hover:bg-dark-700 hover:text-light-100"
+                >
                   Mi Perfil
-                </a>
+                </button>
                 <a href="#" className="block px-4 py-2 text-sm text-light-200 hover:bg-dark-700 hover:text-light-100">
                   Configuración
                 </a>

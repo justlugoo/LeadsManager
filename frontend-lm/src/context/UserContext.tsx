@@ -1,17 +1,22 @@
 import React, { createContext, useEffect, useState } from "react";
 import type { PropsWithChildren } from "react";
 import { apiService } from "../services/api";
+import type { User } from "types";
 
-// Definimos el tipo de dato que compartirá nuestro contexto.
-// Será un array con el token (string o null) y la función para actualizarlo.
-type UserContextType = [
-  string | null,
-  React.Dispatch<React.SetStateAction<string | null>>
-];
+// El contexto ahora compartirá el usuario y el token
+export interface UserContextType {
+  token: string | null;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
 
-// Creamos el contexto con un valor inicial por defecto.
-// El valor inicial es un array con `null` (sin token) y una función vacía.
-export const UserContext = createContext<UserContextType>([null, () => {}]);
+export const UserContext = createContext<UserContextType>({
+  token: null,
+  setToken: () => {},
+  user: null,
+  setUser: () => {},
+});
 
 // Creamos el componente "Proveedor" que envolverá nuestra aplicación.
 export const UserProvider = ({ children }: PropsWithChildren) => {
@@ -20,20 +25,21 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("leadsManagerToken")
   );
+  const [user, setUser] = useState<User | null>(null);
 
   // Este efecto se ejecuta cada vez que el valor del 'token' cambia.
   useEffect(() => {
     const fetchUser = async () => {
       if (token) {
         try {
-          // El interceptor se encarga de leer el token desde localStorage.
-          // Como ahora guardamos el token en `useAuth` antes de llegar aquí,
-          // la validación usará el token correcto.
-          await apiService.getCurrentUser();
-          // Ya no es necesario guardar el token aquí.
+          const res = await apiService.getCurrentUser();
+          setUser(res.data);
         } catch (error) {
           setToken(null);
+          setUser(null);
         }
+      } else {
+        setUser(null);
       }
     };
     fetchUser();
@@ -48,7 +54,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
   // El proveedor comparte el valor actual del token y la función para poder cambiarlo.
   return (
-    <UserContext.Provider value={[token, setToken]}>
+    <UserContext.Provider value={{ token, setToken, user, setUser }}>
       {children}
     </UserContext.Provider>
   );

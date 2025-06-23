@@ -17,18 +17,18 @@ export default {
       colors: {
         // Nueva paleta de colores elegante y moderna
         'primary': {
-          'start': '#8B5CF6', // Púrpura vibrante
-          'end': '#3B82F6',   // Azul vibrante
+          'start': '#FF6B35', // Naranja/coral (acento principal)
+          'end': '#3B82F6',   // Azul suave (acento secundario)
         },
         'dark': {
-          '900': '#111827', // Fondo principal (casi negro)
-          '800': '#1F2937', // Fondo de tarjetas
-          '700': '#374151', // Bordes y elementos sutiles
+          '900': '#FFFFFF',   // Fondo principal (blanco puro)
+          '800': '#F8F9FA',   // Fondo de tarjetas (gris muy claro)
+          '700': '#E0DED9',   // Bordes y elementos sutiles (gris claro)
         },
         'light': {
-          '100': '#F9FAFB', // Texto principal (blanco roto)
-          '200': '#E5E7EB', // Texto secundario
-          '300': '#9CA3AF', // Texto terciario (más gris)
+          '100': '#1F2937',   // Texto principal (gris oscuro)
+          '200': '#6B7280',   // Texto secundario (gris medio)
+          '300': '#9CA3AF',   // Texto terciario (más gris)
         }
       },
       backgroundImage: {

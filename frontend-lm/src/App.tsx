@@ -10,14 +10,14 @@ import LayoutDemo from 'components/layout/LayoutDemo';
 import { LeadsList } from 'pages/leads/LeadsList';
 import { LeadForm } from 'pages/leads/LeadForm';
 import { LeadDetail } from 'pages/leads/LeadDetail';
+import { Profile } from 'pages/profile';
+import { Dashboard } from 'pages/dashboard/Dashboard';
 // Dummy pages
 // const Login = () => (
 //   <AuthLayout title="Iniciar Sesión">
 //     <div className="text-light-100">Login Page (formulario aquí)</div>
 //   </AuthLayout>
 // );
-const Dashboard = () => <div className="text-light-100">Dashboard Page</div>;
-const Profile = () => <div className="text-light-100">Profile Page</div>;
 
 function App() {
   return (

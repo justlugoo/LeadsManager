@@ -46,10 +46,15 @@ export const leadsService = {
   },
 
   /**
-   * Actualiza el estado de un lead
+   * Actualiza el estado de un lead (requiere enviar el objeto completo)
    */
   async updateLeadStatus(id: number, status: string): Promise<Lead> {
-    const response = await apiService.put(`/leads/${id}`, { status });
+    // 1. Obtener el lead actual
+    const lead = await this.getLead(id);
+    // 2. Actualizar el campo status
+    const updatedLead = { ...lead, status };
+    // 3. Enviar el objeto completo por PUT
+    const response = await apiService.put(`/leads/${id}`, updatedLead);
     return response.data;
   }
 }; 
