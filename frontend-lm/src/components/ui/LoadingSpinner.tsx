@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Este componente es ideal para mostrar estados de carga en los formularios de AuthCard (login/registro)
 export const LoadingSpinner: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) => {
   const sizes = {
     sm: 'w-4 h-4',

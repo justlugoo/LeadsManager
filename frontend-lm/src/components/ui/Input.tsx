@@ -14,6 +14,7 @@ export interface InputProps {
   className?: string;
 }
 
+// Este componente es ideal para usar en los formularios de AuthCard (login/registro)
 export const Input: React.FC<InputProps> = ({
   label,
   placeholder,

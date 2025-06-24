@@ -32,4 +32,6 @@ export const Badge: React.FC<BadgeProps> = ({
       {children}
     </span>
   );
-}; 
+};
+
+// Este componente puede ser útil para mostrar estados en AuthCard si se requiere 

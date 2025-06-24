@@ -22,8 +22,8 @@ export const Sidebar: React.FC<{ navigation: NavItem[] }> = ({ navigation }) => 
       `}>
         <div className="flex items-center justify-between p-4 border-b border-dark-700">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-5 h-5 text-white" />
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center">
+              <img src="/leads-manager-icon-simple.svg" alt="Logo LeadsCRM" className="w-9 h-9" />
             </div>
             <h1 className="text-xl font-bold text-light-100">LeadsCRM</h1>
           </div>

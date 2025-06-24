@@ -55,4 +55,6 @@ export const Button: React.FC<ButtonProps> = ({
       {children}
     </button>
   );
-}; 
+};
+
+// Este componente es ideal para usar en los formularios de AuthCard (login/registro) 

@@ -9,6 +9,7 @@ export interface ModalProps {
   children: React.ReactNode;
 }
 
+// Este componente no es necesario para AuthCard, pero está disponible para otros flujos
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,

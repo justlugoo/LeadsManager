@@ -1,7 +1,8 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background -->
-  <rect width="32" height="32" rx="6" fill="#3B82F6"/>
-  
-  <!-- LM Letters -->
-  <text x="16" y="22" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">LM</text>
+  <g stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <rect x="8" y="10" width="16" height="14" rx="2"/>
+    <path d="M12 24V18M16 24V18M20 24V18"/>
+    <rect x="14" y="14" width="4" height="4" rx="1"/>
+    <path d="M8 10V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/>
+  </g>
 </svg> 

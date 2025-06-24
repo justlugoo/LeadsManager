@@ -1,31 +1,24 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { MainLayout } from 'components/layout/MainLayout';
-import { AuthLayout } from 'components/layout/AuthLayout';
 import { ProtectedRoute } from 'components/ProtectedRoute';
 import { navigationItems } from 'config/navigation';
 import { routes } from 'routes';
-import { Register } from 'pages/auth/Register';
-import { Login } from 'pages/auth/Login';
 import LayoutDemo from 'components/layout/LayoutDemo';
 import { LeadsList } from 'pages/leads/LeadsList';
 import { LeadForm } from 'pages/leads/LeadForm';
 import { LeadDetail } from 'pages/leads/LeadDetail';
 import { Profile } from 'pages/profile';
 import { Dashboard } from 'pages/dashboard/Dashboard';
-// Dummy pages
-// const Login = () => (
-//   <AuthLayout title="Iniciar Sesión">
-//     <div className="text-light-100">Login Page (formulario aquí)</div>
-//   </AuthLayout>
-// );
+import { AuthCard } from 'components/auth/AuthCard';
 
 function App() {
   return (
     <Router>
       <Routes>
         {/* Rutas públicas */}
-        <Route path={routes.auth.login} element={<Login />} />
-        <Route path={routes.auth.register} element={<AuthLayout title="Crear Cuenta"><Register /></AuthLayout>} />
+        <Route path="/auth" element={<AuthCard />} />
+        <Route path={routes.auth.login} element={<Navigate to="/auth" replace />} />
+        <Route path={routes.auth.register} element={<Navigate to="/auth" replace />} />
         {/* Rutas protegidas */}
         <Route
           path={routes.app.dashboard}

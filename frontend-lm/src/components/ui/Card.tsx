@@ -45,4 +45,6 @@ export const Card: React.FC<CardProps> = ({
       {children}
     </div>
   );
-}; 
+};
+
+// Este componente es ideal para usar como contenedor animado en AuthCard (login/registro sliding) 

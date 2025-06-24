@@ -35,6 +35,10 @@ export const Header: React.FC = () => {
       <div className="flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Left side */}
         <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <img src="/leads-manager-icon-simple.svg" alt="Logo Leads Manager" className="w-8 h-8 md:w-10 md:h-10 filter invert" />
+            <span className="text-xl md:text-2xl font-bold text-white">Leads Manager</span>
+          </div>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="lg:hidden p-2 rounded-md text-light-300 hover:text-light-100 hover:bg-dark-700 transition-colors"

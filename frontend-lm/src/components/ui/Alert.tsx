@@ -15,6 +15,7 @@ export interface AlertProps {
   className?: string;
 }
 
+// Este componente es ideal para mostrar errores en los formularios de AuthCard (login/registro)
 export const Alert: React.FC<AlertProps> = ({
   type = 'info',
   title,
