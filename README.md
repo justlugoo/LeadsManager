@@ -1,48 +1,104 @@
-# Leads Manager API 📊
+# Leads Manager 📊
 
 [![Estado del Build](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/tu-usuario/leads-manager)
 [![Versión de Python](https://img.shields.io/badge/python-3.13+-blue)](https://www.python.org/)
+[![Versión de Node.js](https://img.shields.io/badge/node-18+-green)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/react-19.1.0-blue)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/typescript-5.8.3-blue)](https://www.typescriptlang.org/)
 
-**Leads Manager** es una API RESTful, robusta y escalable para la gestión de clientes potenciales (leads), desarrollada con el moderno framework **FastAPI** y el poderoso ORM **SQLAlchemy**.
+**Leads Manager** es una aplicación completa de gestión de clientes potenciales (leads) con una **API RESTful** robusta desarrollada en **FastAPI** y **SQLAlchemy**, y un **frontend moderno** construido con **React** y **TypeScript**. Esta solución integral permite a equipos de ventas y marketing gestionar eficientemente su pipeline de leads, desde la captura inicial hasta la conversión final, proporcionando herramientas avanzadas de seguimiento, análisis y gestión de relaciones con clientes potenciales.
 
 ## ✨ Características Principales
 
-* **Gestión de Usuarios**: Sistema completo para crear y autenticar usuarios.
-* **Autenticación Segura**: Implementación de JSON Web Tokens (JWT) para proteger los endpoints.
-* **Gestión de Leads (CRUD)**: Operaciones completas para Crear, Leer, Actualizar y Eliminar leads.
-* **Arquitectura Moderna**: Estructura de proyecto en capas, limpia y fácil de mantener.
-* **Validación de Datos**: Uso de Pydantic para una validación de datos robusta y automática.
-* **Documentación Interactiva**: Documentación de la API generada automáticamente con Swagger UI y ReDoc.
+### 🔐 Autenticación y Usuarios
+* **Sistema de Autenticación Completo**: Login y registro con validación de formularios
+* **Autenticación Segura**: Implementación de JSON Web Tokens (JWT) para proteger los endpoints
+* **Gestión de Usuarios**: Sistema completo para crear y autenticar usuarios
+* **Rutas Protegidas**: Navegación segura con componentes de protección de rutas
+
+### 📋 Gestión de Leads
+* **CRUD Completo**: Crear, Leer, Actualizar y Eliminar leads
+* **Estados de Leads**: Sistema de estados con colores y iconos (Nuevo, Contactado, Calificado, Propuesta, Negociación, Ganado, Perdido)
+* **Filtros Avanzados**: Búsqueda por nombre, email, empresa y filtrado por estado
+* **Vista Detallada**: Página dedicada para ver y editar información completa de cada lead
+
+### 🎨 Interfaz de Usuario
+* **Diseño Moderno**: Interfaz elegante con gradientes personalizados y componentes intuitivos
+* **Componentes Reutilizables**: Sistema de componentes UI modular y consistente
+* **Responsive Design**: Optimizado para dispositivos móviles y desktop
+* **Animaciones Suaves**: Transiciones y efectos visuales para mejor UX
+* **Iconografía**: Uso de Heroicons para iconos consistentes
+
+### 📊 Dashboard y Analytics
+* **Dashboard Interactivo**: Resumen visual de métricas importantes
+* **Estadísticas en Tiempo Real**: Total de leads, nuevos leads, tasa de conversión
+* **Gráficos de Estado**: Distribución de leads por estado
+* **Leads Recientes**: Lista de los leads más recientes con acceso rápido
+
+### 🏗️ Arquitectura
+* **Arquitectura en Capas**: Separación clara de responsabilidades
+* **Validación de Datos**: Uso de Pydantic para validación robusta
+* **Documentación Interactiva**: API documentada con Swagger UI y ReDoc
+* **TypeScript**: Tipado estático para mayor seguridad y desarrollo eficiente
 
 ## 🛠️ Stack Tecnológico
 
--   **Backend**:
-    -   [FastAPI](https://fastapi.tiangolo.com/): Framework web de alto rendimiento para construir APIs.
-    -   [SQLAlchemy](https://www.sqlalchemy.org/): The Python SQL Toolkit and Object Relational Mapper.
-    -   [Pydantic](https://docs.pydantic.dev/): Validación de datos y gestión de configuraciones.
-    -   [PyJWT](https://pyjwt.readthedocs.io/): Implementación de JSON Web Tokens.
-    -   [Passlib](https://passlib.readthedocs.io/): Biblioteca para hashing de contraseñas.
--   **Base de Datos**:
-    -   SQLite (para desarrollo)
-    -   Totalmente compatible con PostgreSQL, MySQL, etc. (para producción).
--   **Frontend** (Planificado):
-    -   React.js | Redux | Material UI
+### Backend
+-   **[FastAPI](https://fastapi.tiangolo.com/)**: Framework web de alto rendimiento para construir APIs
+-   **[SQLAlchemy](https://www.sqlalchemy.org/)**: The Python SQL Toolkit and Object Relational Mapper
+-   **[Pydantic](https://docs.pydantic.dev/)**: Validación de datos y gestión de configuraciones
+-   **[PyJWT](https://pyjwt.readthedocs.io/)**: Implementación de JSON Web Tokens
+-   **[Passlib](https://passlib.readthedocs.io/)**: Biblioteca para hashing de contraseñas
+
+### Frontend
+-   **[React 19](https://reactjs.org/)**: Biblioteca para interfaces de usuario
+-   **[TypeScript](https://www.typescriptlang.org/)**: Superset de JavaScript con tipado estático
+-   **[Vite](https://vitejs.dev/)**: Herramienta de construcción rápida para desarrollo
+-   **[React Router DOM](https://reactrouter.com/)**: Enrutamiento declarativo para React
+-   **[Tailwind CSS](https://tailwindcss.com/)**: Framework CSS utility-first
+-   **[Axios](https://axios-http.com/)**: Cliente HTTP para realizar peticiones a la API
+-   **[Heroicons](https://heroicons.com/)**: Iconos SVG optimizados
+
+### Base de Datos
+-   **SQLite** (para desarrollo)
+-   Totalmente compatible con **PostgreSQL**, **MySQL**, etc. (para producción)
 
 ## 🏗️ Arquitectura del Proyecto
 
 El proyecto sigue una arquitectura en capas para separar responsabilidades y facilitar el mantenimiento.
 
 ```
-backend-lm/
-├── src/
-│   ├── database/       # Configuración de la base de datos
-│   ├── models/         # Modelos de datos (SQLAlchemy)
-│   ├── schemas/        # Esquemas de validación (Pydantic)
-│   ├── services/       # Lógica de negocio
-│   ├── routers/        # Endpoints de la API
-│   ├── utils/          # Utilidades (seguridad, etc.)
-│   └── main.py         # Punto de entrada de la aplicación
-└── pyproject.toml      # Dependencias del proyecto
+leadManager/
+├── backend-lm/                    # API Backend (FastAPI)
+│   ├── src/
+│   │   ├── database/             # Configuración de la base de datos
+│   │   ├── models/               # Modelos de datos (SQLAlchemy)
+│   │   ├── schemas/              # Esquemas de validación (Pydantic)
+│   │   ├── services/             # Lógica de negocio
+│   │   ├── routers/              # Endpoints de la API
+│   │   ├── utils/                # Utilidades (seguridad, etc.)
+│   │   └── main.py               # Punto de entrada de la aplicación
+│   └── pyproject.toml            # Dependencias del proyecto
+└── frontend-lm/                   # Frontend (React + TypeScript)
+    ├── src/
+    │   ├── components/           # Componentes reutilizables
+    │   │   ├── auth/             # Componentes de autenticación
+    │   │   ├── layout/           # Componentes de layout
+    │   │   ├── leads/            # Componentes específicos de leads
+    │   │   └── ui/               # Componentes UI base
+    │   ├── pages/                # Páginas de la aplicación
+    │   │   ├── auth/             # Páginas de autenticación
+    │   │   ├── dashboard/        # Dashboard principal
+    │   │   ├── leads/            # Páginas de gestión de leads
+    │   │   └── profile/          # Página de perfil
+    │   ├── services/             # Servicios de API
+    │   ├── hooks/                # Custom hooks de React
+    │   ├── context/              # Contextos de React
+    │   ├── types/                # Definiciones de tipos TypeScript
+    │   ├── config/               # Configuraciones
+    │   └── routes/               # Configuración de rutas
+    ├── public/                   # Archivos estáticos
+    └── package.json              # Dependencias del frontend
 ```
 
 ## 🔄 Endpoints de la API
@@ -64,33 +120,32 @@ A continuación se detallan los endpoints disponibles actualmente.
 
 ## 🚀 Instalación y Uso Local
 
-Sigue estos pasos para levantar el proyecto en tu máquina local.
+Sigue estos pasos para levantar el proyecto completo en tu máquina local.
 
 ### Pre-requisitos
 
--   Python 3.13 o superior.
--   Un gestor de paquetes como `pip` o `uv`.
--   Git.
+-   Python 3.13 o superior
+-   Node.js 18 o superior
+-   Un gestor de paquetes como `pip` o `uv`
+-   Git
 
-### Pasos
+### Backend Setup
 
-1.  **Clona el repositorio:**
+1.  **Navega al directorio del backend:**
     ```bash
-    git clone https://github.com/tu-usuario/leads-manager.git
-    cd leads-manager
+    cd backend-lm
     ```
 
 2.  **Crea y activa un entorno virtual:**
     ```bash
     python -m venv venv
     # En Windows
-    # venv\Scripts\activate
+    venv\Scripts\activate
     # En macOS/Linux
     source venv/bin/activate
     ```
 
 3.  **Instala las dependencias:**
-    *(El flag `-e` instala el proyecto en modo editable)*
     ```bash
     # Con pip
     pip install -e .
@@ -99,41 +154,104 @@ Sigue estos pasos para levantar el proyecto en tu máquina local.
     uv pip install -e .
     ```
 
-4.  **Ejecuta el servidor:**
+4.  **Ejecuta el servidor backend:**
     ```bash
     uvicorn src.main:app --reload
     ```
-    El servidor estará corriendo en `http://localhost:8000`. El flag `--reload` reiniciará el servidor automáticamente con cada cambio en el código.
+    El servidor estará corriendo en `http://localhost:8000`
 
-5.  **Accede a la documentación interactiva:**
-    Una vez que el servidor esté en ejecución, abre tu navegador y ve a:
-    -   **Swagger UI**: `http://localhost:8000/docs`
-    -   **ReDoc**: `http://localhost:8000/redoc`
+>[!NOTE]
+> Antes de usar la aplicación, asegúrate de ejecutar `python init_db.py` para crear las tablas necesarias en la base de datos.
+
+### Frontend Setup
+
+1.  **Navega al directorio del frontend:**
+    ```bash
+    cd frontend-lm
+    ```
+
+2.  **Instala las dependencias:**
+    ```bash
+    npm install
+    # o
+    yarn install
+    ```
+
+3.  **Ejecuta el servidor de desarrollo:**
+    ```bash
+    npm run dev
+    # o
+    yarn dev
+    ```
+    El frontend estará corriendo en `http://localhost:5173`
+
+### Acceso a la Aplicación
+
+-   **Frontend**: `http://localhost:5173`
+-   **API Documentation**: `http://localhost:8000/docs`
+-   **ReDoc**: `http://localhost:8000/redoc`
+
+## 🎯 Características del Frontend
+
+### 🔐 Sistema de Autenticación
+- **Login/Register Sliding Card**: Interfaz elegante con animaciones suaves
+- **Validación de Formularios**: Validación en tiempo real con mensajes de error
+- **Persistencia de Sesión**: Tokens JWT almacenados en localStorage
+- **Rutas Protegidas**: Navegación automática a login si no está autenticado
+
+### 📋 Gestión de Leads
+- **Lista de Leads**: Tabla responsive con filtros y búsqueda
+- **Formulario de Creación/Edición**: Formularios intuitivos con validación
+- **Vista Detallada**: Página completa con toda la información del lead
+- **Estados Visuales**: Badges con colores y iconos para cada estado
+- **Acciones Rápidas**: Editar, eliminar y cambiar estado directamente
+
+### 📊 Dashboard
+- **Métricas Principales**: Tarjetas con estadísticas clave
+- **Gráficos de Estado**: Distribución visual de leads por estado
+- **Leads Recientes**: Lista de los últimos leads agregados
+- **Navegación Rápida**: Acceso directo a crear nuevos leads
+
+### 🎨 Componentes UI
+- **Sistema de Diseño**: Componentes consistentes y reutilizables
+- **Paleta de Colores**: Diseño moderno y elegante con gradientes personalizados
+- **Responsive**: Optimizado para todos los tamaños de pantalla
+- **Animaciones**: Transiciones suaves y efectos visuales
+- **Iconografía**: Iconos consistentes con Heroicons
 
 ## 📈 Estado del Proyecto
 
--   [x] ✅ Backend API con FastAPI.
--   [x] ✅ Modelos de datos para `Users` y `Leads`.
--   [x] ✅ Autenticación de usuarios con JWT.
--   [x] ✅ Endpoints CRUD completos para `Users`.
--   [x] ✅ Endpoints CRUD completos para `Leads`.
--   [ ] 🔄 Frontend con React (Planificado).
+### ✅ Completado
+-   [x] Backend API con FastAPI
+-   [x] Modelos de datos para `Users` y `Leads`
+-   [x] Autenticación de usuarios con JWT
+-   [x] Endpoints CRUD completos para `Users`
+-   [x] Endpoints CRUD completos para `Leads`
+-   [x] Frontend con React y TypeScript
+-   [x] Sistema de autenticación completo
+-   [x] Dashboard interactivo con estadísticas
+-   [x] Gestión completa de leads (CRUD)
+-   [x] Sistema de filtros y búsqueda
+-   [x] Componentes UI reutilizables
+-   [x] Diseño responsive y moderno
+-   [x] Navegación protegida
+-   [x] Validación de formularios
+
+### 🔄 En Desarrollo
+-   [ ] Sistema de notificaciones
+-   [ ] Exportación de datos
+-   [ ] Paginación avanzada
+-   [ ] Búsqueda global
+
+### 📋 Planificado
+-   [ ] Roles y permisos de usuario (admin, sales_rep)
+-   [ ] Filtrado y búsqueda avanzada
+-   [ ] Sistema de notificaciones en tiempo real
+-   [ ] Reportes y analytics avanzados
+-   [ ] Configuración de Docker
+-   [ ] Tests automatizados
+-   [ ] PWA (Progressive Web App)
 
 ## 🗺️ Roadmap / Próximos Pasos
 
--   [ ] Añadir roles y permisos de usuario (ej. `admin`, `sales_rep`).
--   [ ] Implementar funcionalidades de filtrado y búsqueda avanzada para leads.
--   [ ] Desarrollar el frontend con React para consumir la API.
--   [ ] Implementar un sistema de notificaciones (ej. al asignar un nuevo lead).
--   [ ] Añadir reportes y un dashboard de estadísticas.
--   [ ] Configurar Docker para un despliegue más sencillo.
-
-## 🤝 Cómo Contribuir
-
-¡Las contribuciones son bienvenidas! Si quieres mejorar este proyecto, por favor sigue estos pasos:
-
-1.  Haz un **Fork** de este repositorio.
-2.  Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
-3.  Haz tus cambios y haz **Commit** (`git commit -m 'Añade nueva funcionalidad'`).
-4.  Haz **Push** a tu rama (`git push origin feature/nueva-funcionalidad`).
-5.  Abre un **Pull Request**.
+-   [ ] Implementar roles y permisos de usuario (ej. `admin`, `
