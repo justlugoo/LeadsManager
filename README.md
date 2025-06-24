@@ -251,7 +251,3 @@ Sigue estos pasos para levantar el proyecto completo en tu máquina local.
 -   [ ] Configuración de Docker
 -   [ ] Tests automatizados
 -   [ ] PWA (Progressive Web App)
-
-## 🗺️ Roadmap / Próximos Pasos
-
--   [ ] Implementar roles y permisos de usuario (ej. `admin`, `
