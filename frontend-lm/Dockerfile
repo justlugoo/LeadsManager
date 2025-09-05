@@ -1,29 +1,32 @@
-# Etapa 1: Construcción de la aplicación React
-FROM node:20-alpine AS build
+# frontend-lm/Dockerfile
+FROM node:20-alpine AS builder
 
-# Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app/frontend
+# Establecer directorio de trabajo
+WORKDIR /app
 
-# Copia los archivos de configuración de dependencias primero para cacheo eficiente.
+# Copiar archivos de configuración
 COPY package.json package-lock.json ./
 
-# Instala las dependencias de tu proyecto
-RUN npm install
+# Instalar dependencias (incluyendo devDependencies para el build)
+RUN npm ci
 
-# Copia el resto de tu código fuente al contenedor.
+# Copiar código fuente
 COPY . .
 
-# Construye la aplicación de React para producción
+# Construir la aplicación
 RUN npm run build
 
-# Etapa 2: Servir la aplicación con Nginx
+# Etapa de producción con Nginx
 FROM nginx:alpine
 
-# Copia el resultado de la construcción (la carpeta 'dist') a Nginx.
-COPY --from=build /app/frontend/dist /usr/share/nginx/html
+# Copiar configuración de Nginx personalizada
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expone el puerto del servidor
+# Copiar archivos construidos desde la etapa anterior
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Exponer puerto
 EXPOSE 80
 
-# Comando para iniciar Nginx
+# Comando por defecto (Nginx se ejecuta en foreground)
 CMD ["nginx", "-g", "daemon off;"]

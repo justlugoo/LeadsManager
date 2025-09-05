@@ -1,18 +1,59 @@
-version: '3.8'
-
+# docker-compose.yml
 services:
   backend:
-    build: ./backend-lm
+    build:
+      context: ./backend-lm
+      dockerfile: Dockerfile
+    container_name: leadsmanager-backend
     ports:
       - "8000:8000"
     volumes:
-      - ./backend-lm:/app/backend-lm
+      - ./backend-lm/data:/app/data  # Para persistir la base de datos SQLite
     environment:
-      - DATABASE_URL=sqlite:///./sql_app.db
+      - ENVIRONMENT=production
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - leadsmanager-network
 
   frontend:
-    build: ./frontend-lm
+    build:
+      context: ./frontend-lm
+      dockerfile: Dockerfile
+    container_name: leadsmanager-frontend
     ports:
       - "3000:80"
-    volumes:
-      - ./frontend-lm:/app/frontend-lm
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - leadsmanager-network
+
+  # Opcional: Base de datos PostgreSQL para producción
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: leadsmanager-postgres
+  #   environment:
+  #     POSTGRES_DB: leadsmanager
+  #     POSTGRES_USER: leadsmanager
+  #     POSTGRES_PASSWORD: your_secure_password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   restart: unless-stopped
+  #   networks:
+  #     - leadsmanager-network
+
+networks:
+  leadsmanager-network:
+    driver: bridge
+
+volumes:
+  # postgres_data:  # Descomenta si usas PostgreSQL
+  sqlite_data:

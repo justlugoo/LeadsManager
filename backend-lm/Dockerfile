@@ -1,23 +1,27 @@
-# Usa una imagen base de Python ligera para un tamaño menor.
+# backend-lm/Dockerfile
 FROM python:3.13-slim
 
-# Establece el directorio de trabajo dentro del contenedor.
-# Corregido a 'backend-lm' para que coincida con tu estructura.
-WORKDIR /app/backend-lm
+# Establecer directorio de trabajo
+WORKDIR /app
 
-# Copia los archivos de configuración de dependencias primero para cacheo eficiente.
-COPY pyproject.toml uv.lock ./
+# Instalar uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
-# Instala uv y las dependencias usando el archivo de bloqueo.
-RUN pip install uv && \
-    uv sync
+# Copiar archivos de configuración
+COPY pyproject.toml uv.lock* ./
 
-# Copia el resto del código de la aplicación.
-COPY . .
+# Instalar dependencias
+RUN uv sync --frozen --no-cache
 
-# Expone el puerto que tu aplicación FastAPI usará.
+# Copiar código fuente
+COPY src/ ./src/
+COPY init_db.py ./
+
+# Crear la base de datos
+RUN uv run python init_db.py
+
+# Exponer puerto
 EXPOSE 8000
 
-# Define el comando para iniciar la aplicación.
-# Usamos "python -m" para que el módulo uvicorn sea encontrado sin errores.
-CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Comando por defecto
+CMD ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
