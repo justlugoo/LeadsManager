@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChartBarIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useLayout } from './LayoutProvider';
 import type { NavItem } from 'types';
 

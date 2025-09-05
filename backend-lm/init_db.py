@@ -7,4 +7,4 @@ def create_database():
     print("¡Base de datos y tablas creadas correctamente!")
 
 if __name__ == "__main__":
-    create_database() 
+    create_database()

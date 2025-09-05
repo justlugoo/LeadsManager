@@ -9,14 +9,11 @@ import { Alert } from 'components/ui/Alert';
 import { Badge } from 'components/ui/Badge';
 import { routes } from 'routes';
 import { apiService } from 'services/api';
-import type { User } from 'types';
-import { 
+import {
   UserIcon, 
   EnvelopeIcon, 
   KeyIcon, 
   ShieldCheckIcon,
-  CogIcon,
-  BellIcon,
   DocumentTextIcon,
   ChartBarIcon
 } from '@heroicons/react/24/outline';

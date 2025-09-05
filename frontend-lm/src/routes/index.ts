@@ -1,6 +1,3 @@
-import { AuthCard } from 'components/auth/AuthCard';
-import { Navigate } from 'react-router-dom';
-
 export const routes = {
   auth: {
     login: '/login',

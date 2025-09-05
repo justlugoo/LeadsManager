@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend-lm
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend-lm:/app/backend-lm
+    environment:
+      - DATABASE_URL=sqlite:///./sql_app.db
+
+  frontend:
+    build: ./frontend-lm
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend-lm:/app/frontend-lm
