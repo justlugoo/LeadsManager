@@ -10,6 +10,7 @@ env:
   REGION: us-central1
   SERVICE_NAME_BACKEND: leadsmanager-backend
   SERVICE_NAME_FRONTEND: leadsmanager-frontend
+  REPOSITORY: leadsmanager-repo
 
 jobs:
   deploy:
@@ -31,38 +32,27 @@ jobs:
     - name: ⚙️ Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v2
     
-    - name: 🐳 Configure Docker for GCR
-      run: gcloud auth configure-docker
-    
-    # Build y push del backend
+    - name: 🐳 Configure Docker for Artifact Registry
+      run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+    # ============================
+    # Backend
+    # ============================
     - name: 🏗️ Build backend image
       run: |
         cd backend-lm
-        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:$GITHUB_SHA .
-        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:latest .
-    
-    - name: 📤 Push backend image to GCR
+        docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:$GITHUB_SHA .
+        docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:latest .
+
+    - name: 📤 Push backend image to Artifact Registry
       run: |
-        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:$GITHUB_SHA
-        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:latest
-    
-    # Build y push del frontend
-    - name: 🏗️ Build frontend image
-      run: |
-        cd frontend-lm
-        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:$GITHUB_SHA .
-        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:latest .
-    
-    - name: 📤 Push frontend image to GCR
-      run: |
-        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:$GITHUB_SHA
-        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:latest
-    
-    # Deploy del backend a Cloud Run
+        docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:$GITHUB_SHA
+        docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:latest
+
     - name: 🚀 Deploy backend to Cloud Run
       run: |
         gcloud run deploy $SERVICE_NAME_BACKEND \
-          --image gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:$GITHUB_SHA \
+          --image us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME_BACKEND:$GITHUB_SHA \
           --region $REGION \
           --platform managed \
           --allow-unauthenticated \
@@ -71,12 +61,25 @@ jobs:
           --cpu 1 \
           --max-instances 10 \
           --set-env-vars="ENVIRONMENT=production"
-    
-    # Deploy del frontend a Cloud Run
+
+    # ============================
+    # Frontend
+    # ============================
+    - name: 🏗️ Build frontend image
+      run: |
+        cd frontend-lm
+        docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:$GITHUB_SHA .
+        docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:latest .
+
+    - name: 📤 Push frontend image to Artifact Registry
+      run: |
+        docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:$GITHUB_SHA
+        docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:latest
+
     - name: 🚀 Deploy frontend to Cloud Run
       run: |
         gcloud run deploy $SERVICE_NAME_FRONTEND \
-          --image gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:$GITHUB_SHA \
+          --image us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME_FRONTEND:$GITHUB_SHA \
           --region $REGION \
           --platform managed \
           --allow-unauthenticated \
@@ -84,8 +87,10 @@ jobs:
           --memory 256Mi \
           --cpu 0.5 \
           --max-instances 5
-    
-    # Obtener URLs de los servicios
+
+    # ============================
+    # Output URLs
+    # ============================
     - name: 📋 Get service URLs
       run: |
         BACKEND_URL=$(gcloud run services describe $SERVICE_NAME_BACKEND --region $REGION --format 'value(status.url)')
@@ -95,6 +100,5 @@ jobs:
         echo "Backend URL: $BACKEND_URL"
         echo "Frontend URL: $FRONTEND_URL"
         
-        # Opcional: Comentar en el commit con las URLs
         echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_OUTPUT
         echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_OUTPUT
