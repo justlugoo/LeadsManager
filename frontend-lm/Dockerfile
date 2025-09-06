@@ -11,7 +11,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copiar configuración de Nginx para GCP
-COPY nginx-gcp.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copiar archivos construidos
 COPY --from=builder /app/dist /usr/share/nginx/html
