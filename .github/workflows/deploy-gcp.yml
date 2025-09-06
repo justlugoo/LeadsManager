@@ -84,7 +84,6 @@ jobs:
           --region ${{ env.REGION }} \
           --platform managed \
           --allow-unauthenticated \
-          --port 80 \
           --memory 256Mi \
           --cpu 0.5 \
           --max-instances 5
