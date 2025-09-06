@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 env:
-  PROJECT_ID: mauricio-466614   # ⚠️ Reemplaza con tu ID real de proyecto en GCP
+  PROJECT_ID: mauricio-466614
   REGION: us-central1
   SERVICE_NAME_BACKEND: leadsmanager-backend
   SERVICE_NAME_FRONTEND: leadsmanager-frontend
@@ -33,25 +33,28 @@ jobs:
       uses: google-github-actions/setup-gcloud@v2
     
     - name: 🐳 Configure Docker for Artifact Registry
-      run: gcloud auth configure-docker
-
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+    
     # ============================
     # Backend
     # ============================
     - name: 🏗️ Build backend image
       run: |
         cd backend-lm
-        docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:$GITHUB_SHA .
+        docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:${{ github.sha }} .
         docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:latest .
+    
     - name: 📤 Push backend image to Artifact Registry
       run: |
-        docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:$GITHUB_SHA
+        docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:${{ github.sha }}
         docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:latest
+    
     - name: 🚀 Deploy backend to Cloud Run
       run: |
-        gcloud run deploy $SERVICE_NAME_BACKEND \
-          --image us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME_BACKEND:$GITHUB_SHA \
-          --region $REGION \
+        gcloud run deploy ${{ env.SERVICE_NAME_BACKEND }} \
+          --image us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_BACKEND }}:${{ github.sha }} \
+          --region ${{ env.REGION }} \
           --platform managed \
           --allow-unauthenticated \
           --port 8000 \
@@ -59,36 +62,40 @@ jobs:
           --cpu 1 \
           --max-instances 10 \
           --set-env-vars="ENVIRONMENT=production"
+    
     # ============================
-    # Frontend
+    # Frontend  
     # ============================
     - name: 🏗️ Build frontend image
       run: |
         cd frontend-lm
-        docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:$GITHUB_SHA .
+        docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:${{ github.sha }} .
         docker build -t us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:latest .
+    
     - name: 📤 Push frontend image to Artifact Registry
       run: |
-        docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:$GITHUB_SHA
+        docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:${{ github.sha }}
         docker push us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:latest
+    
     - name: 🚀 Deploy frontend to Cloud Run
       run: |
-        gcloud run deploy $SERVICE_NAME_FRONTEND \
-          --image us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME_FRONTEND:$GITHUB_SHA \
-          --region $REGION \
+        gcloud run deploy ${{ env.SERVICE_NAME_FRONTEND }} \
+          --image us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME_FRONTEND }}:${{ github.sha }} \
+          --region ${{ env.REGION }} \
           --platform managed \
           --allow-unauthenticated \
           --port 80 \
           --memory 256Mi \
           --cpu 0.5 \
           --max-instances 5
+    
     # ============================
     # Output URLs
     # ============================
     - name: 📋 Get service URLs
       run: |
-        BACKEND_URL=$(gcloud run services describe $SERVICE_NAME_BACKEND --region $REGION --format 'value(status.url)')
-        FRONTEND_URL=$(gcloud run services describe $SERVICE_NAME_FRONTEND --region $REGION --format 'value(status.url)')
+        BACKEND_URL=$(gcloud run services describe ${{ env.SERVICE_NAME_BACKEND }} --region ${{ env.REGION }} --format 'value(status.url)')
+        FRONTEND_URL=$(gcloud run services describe ${{ env.SERVICE_NAME_FRONTEND }} --region ${{ env.REGION }} --format 'value(status.url)')
         
         echo "🎉 Deployment completed!"
         echo "Backend URL: $BACKEND_URL"
