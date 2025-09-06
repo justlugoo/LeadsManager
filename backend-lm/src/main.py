@@ -11,7 +11,7 @@ app = FastAPI(
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Tu frontend
+    allow_origins=["http://localhost:5173", "https://leadsmanager-frontend-577637376682.us-central1.run.app/"],  # Tu frontend
     allow_credentials=True,
     allow_methods=["*"],  # GET, POST, PUT, DELETE, etc.
     allow_headers=["*"],  # Todos los headers
