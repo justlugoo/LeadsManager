@@ -1,0 +1,58 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# --- Virtual envs ---
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# --- Logs / Temp ---
+*.log
+*.out
+*.tmp
+*.cache/
+.cache/
+.coverage
+htmlcov/
+pytest_cache/
+.mypy_cache/
+.pytest_cache/
+
+# --- Node.js (si tienes frontend en el mismo repo) ---
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+
+# --- Docker ---
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+
+# --- GCP ---
+key.json       # Clave del Service Account, nunca la subas
+*.json         # Por si generas credenciales locales
+.gcloud/
+
+# --- GitHub Actions ---
+.secrets/

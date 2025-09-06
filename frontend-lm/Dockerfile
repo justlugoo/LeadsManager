@@ -1,32 +1,25 @@
-# frontend-lm/Dockerfile
+# frontend-lm/Dockerfile.gcp
 FROM node:20-alpine AS builder
 
-# Establecer directorio de trabajo
 WORKDIR /app
-
-# Copiar archivos de configuración
 COPY package.json package-lock.json ./
-
-# Instalar dependencias (incluyendo devDependencies para el build)
 RUN npm ci
-
-# Copiar código fuente
 COPY . .
-
-# Construir la aplicación
 RUN npm run build
 
-# Etapa de producción con Nginx
+# Etapa de producción con Nginx para Cloud Run
 FROM nginx:alpine
 
-# Copiar configuración de Nginx personalizada
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copiar configuración de Nginx para GCP
+COPY nginx-gcp.conf /etc/nginx/nginx.conf
 
-# Copiar archivos construidos desde la etapa anterior
+# Copiar archivos construidos
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Exponer puerto
-EXPOSE 80
+# Cloud Run necesita que el servidor escuche en el puerto definido por $PORT
+EXPOSE 8080
 
-# Comando por defecto (Nginx se ejecuta en foreground)
-CMD ["nginx", "-g", "daemon off;"]
+# Script para usar el puerto dinámico de Cloud Run
+RUN echo 'server { listen $PORT; location / { root /usr/share/nginx/html; index index.html; try_files $uri $uri/ /index.html; } }' > /etc/nginx/conf.d/default.conf.template
+
+CMD ["sh", "-c", "envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]

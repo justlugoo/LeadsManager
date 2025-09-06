@@ -1,0 +1,100 @@
+# .github/workflows/deploy-gcp.yml
+name: Deploy to Google Cloud
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  PROJECT_ID: leadsmanager-prod
+  REGION: us-central1
+  SERVICE_NAME_BACKEND: leadsmanager-backend
+  SERVICE_NAME_FRONTEND: leadsmanager-frontend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      id-token: write
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🔑 Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+    
+    - name: ⚙️ Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+    
+    - name: 🐳 Configure Docker for GCR
+      run: gcloud auth configure-docker
+    
+    # Build y push del backend
+    - name: 🏗️ Build backend image
+      run: |
+        cd backend-lm
+        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:$GITHUB_SHA .
+        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:latest .
+    
+    - name: 📤 Push backend image to GCR
+      run: |
+        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:$GITHUB_SHA
+        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:latest
+    
+    # Build y push del frontend
+    - name: 🏗️ Build frontend image
+      run: |
+        cd frontend-lm
+        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:$GITHUB_SHA .
+        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:latest .
+    
+    - name: 📤 Push frontend image to GCR
+      run: |
+        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:$GITHUB_SHA
+        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:latest
+    
+    # Deploy del backend a Cloud Run
+    - name: 🚀 Deploy backend to Cloud Run
+      run: |
+        gcloud run deploy $SERVICE_NAME_BACKEND \
+          --image gcr.io/$PROJECT_ID/$SERVICE_NAME_BACKEND:$GITHUB_SHA \
+          --region $REGION \
+          --platform managed \
+          --allow-unauthenticated \
+          --port 8000 \
+          --memory 512Mi \
+          --cpu 1 \
+          --max-instances 10 \
+          --set-env-vars="ENVIRONMENT=production"
+    
+    # Deploy del frontend a Cloud Run
+    - name: 🚀 Deploy frontend to Cloud Run
+      run: |
+        gcloud run deploy $SERVICE_NAME_FRONTEND \
+          --image gcr.io/$PROJECT_ID/$SERVICE_NAME_FRONTEND:$GITHUB_SHA \
+          --region $REGION \
+          --platform managed \
+          --allow-unauthenticated \
+          --port 80 \
+          --memory 256Mi \
+          --cpu 0.5 \
+          --max-instances 5
+    
+    # Obtener URLs de los servicios
+    - name: 📋 Get service URLs
+      run: |
+        BACKEND_URL=$(gcloud run services describe $SERVICE_NAME_BACKEND --region $REGION --format 'value(status.url)')
+        FRONTEND_URL=$(gcloud run services describe $SERVICE_NAME_FRONTEND --region $REGION --format 'value(status.url)')
+        
+        echo "🎉 Deployment completed!"
+        echo "Backend URL: $BACKEND_URL"
+        echo "Frontend URL: $FRONTEND_URL"
+        
+        # Opcional: Comentar en el commit con las URLs
+        echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_OUTPUT
+        echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_OUTPUT
