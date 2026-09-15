@@ -1,0 +1,78 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Cromática base (validada con el método de dataviz: contraste + separación
+     perceptual comprobados, no elegida a ojo). Un solo azul de marca, sin
+     degradados. */
+  --color-page: #f9f9f7;
+  --color-surface: #ffffff;
+  --color-surface-raised: #fcfcfb;
+  --color-border: rgb(11 11 11 / 10%);
+  --color-divider: #e1e0d9;
+
+  --color-text: #0b0b0b;
+  --color-text-secondary: #52514e;
+  --color-text-muted: #898781;
+
+  --color-accent: #2a78d6;
+  --color-accent-hover: #1c5cab;
+  --color-accent-soft: #cde2fb;
+
+  --color-good: #0ca30c;
+  --color-critical: #d03b3b;
+  --color-warning: #fab219;
+
+  /* Rampa ordinal del pipeline de leads (un solo matiz, claro→oscuro según
+     avanza el lead). "Ganado"/"Perdido" usan los colores de estado, no la
+     rampa, porque son desenlaces, no una etapa intermedia. */
+  --color-stage-1: #86b6ef; /* nuevo */
+  --color-stage-2: #5598e7; /* contactado */
+  --color-stage-3: #2a78d6; /* calificado */
+  --color-stage-4: #1c5cab; /* propuesta */
+  --color-stage-5: #104281; /* negociación */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-page: #0d0d0d;
+    --color-surface: #1a1a19;
+    --color-surface-raised: #1f1f1e;
+    --color-border: rgb(255 255 255 / 10%);
+    --color-divider: #2c2c2a;
+
+    --color-text: #ffffff;
+    --color-text-secondary: #c3c2b7;
+    --color-text-muted: #898781;
+
+    --color-accent: #3987e5;
+    --color-accent-hover: #5598e7;
+    --color-accent-soft: #184f95;
+
+    /* La rampa se invierte: en modo oscuro, "claro" es lo prominente. */
+    --color-stage-1: #184f95;
+    --color-stage-2: #2a78d6;
+    --color-stage-3: #6da7ec;
+    --color-stage-4: #9ec5f4;
+    --color-stage-5: #cde2fb;
+  }
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-text);
+}
+
+@layer components {
+  .input-field {
+    @apply w-full bg-surface rounded-lg py-2.5 px-3.5 text-sm text-text
+      ring-1 ring-border focus:ring-2 focus:ring-accent
+      focus:outline-none transition-shadow duration-150;
+  }
+
+  .form-label {
+    @apply block text-xs font-medium uppercase tracking-wide text-text-muted mb-1.5;
+  }
+}
