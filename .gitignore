@@ -49,10 +49,5 @@ build/
 *.pid.lock
 docker-compose.override.yml
 
-# --- GCP ---
-key.json       # Clave del Service Account, nunca la subas
-*.json         # Por si generas credenciales locales
-.gcloud/
-
-# --- GitHub Actions ---
+# --- Secretos locales ---
 .secrets/
