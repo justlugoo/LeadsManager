@@ -2,7 +2,7 @@ from ...models import User
 from ...schemas import UserCreate
 from sqlalchemy import orm as _orm
 from ...utils.security import hash_password
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException
 
 
 def get_user_by_email(email: str, db: _orm.Session):

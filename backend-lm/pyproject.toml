@@ -1,7 +1,7 @@
 [project]
 name = "backend-lm"
 version = "0.1.0"
-description = "Add your description here"
+description = "API de un CRUD de leads con autenticación JWT"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.115.13",

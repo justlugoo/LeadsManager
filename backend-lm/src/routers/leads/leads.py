@@ -1,5 +1,5 @@
 from typing import List, Dict
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, Query
 from sqlalchemy import orm as _orm
 
 from ...schemas import (
@@ -27,13 +27,15 @@ async def create_lead(
 ):
     return await _leads_services.create_lead(user=user, db=db, lead=lead)
 
-# Obtener TODOS los leads del usuario
+# Obtener los leads del usuario (paginado)
 @router.get('/', response_model=List[_lead_schema.Lead])
 async def get_all_leads(
+        skip: int = Query(default=0, ge=0),
+        limit: int = Query(default=200, ge=1, le=500),
         user: _user_schema.User = Depends(_users.get_current_user),
         db: _orm.Session = Depends(_services.get_db)
 ):
-    return await _leads_services.get_leads(user=user, db=db)
+    return await _leads_services.get_leads(user=user, db=db, skip=skip, limit=limit)
 
 # Obtener un lead específico por ID
 @router.get('/{lead_id}', response_model=_lead_schema.Lead)

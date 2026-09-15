@@ -19,8 +19,16 @@ async def create_lead(
 async def get_leads(
         user: User,
         db: _orm.Session,
+        skip: int = 0,
+        limit: int = 200,
 ):
-    leads = db.query(Lead).filter_by(owner_id=user.id).all()
+    leads = (
+        db.query(Lead)
+        .filter_by(owner_id=user.id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
     return [LeadSchema.model_validate(lead) for lead in leads]
 
 async def _lead_selector(

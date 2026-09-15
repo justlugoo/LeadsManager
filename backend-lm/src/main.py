@@ -1,20 +1,44 @@
+from src.utils.env import load_dotenv
+
+load_dotenv()
+
+import os
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
+
 from src.routers.users import users, auth_users
 from src.routers.leads import leads
+from src.services.services import create_database
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_database()
+    yield
+
 
 app = FastAPI(
     title="Lead Manager API",
     description="API for managing leads and users",
+    lifespan=lifespan,
 )
 
-# Configurar CORS
+# Orígenes permitidos por CORS, configurables por entorno (coma-separados).
+_default_origins = "http://localhost:5173,http://localhost:3000"
+cors_origins = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", _default_origins).split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://leadsmanager-frontend-577637376682.us-central1.run.app/"],  # Tu frontend
+    allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],  # GET, POST, PUT, DELETE, etc.
-    allow_headers=["*"],  # Todos los headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/")
